@@ -2,25 +2,26 @@ from flask import Flask,request
 from werkzeug import secure_filename
 import os,json,sys
 from config import dic
-sys.path.append('/home/ai_demo/mtcnn')
-from demo import main
+# sys.path.append('/home/ai_demo/mtcnn')
+# from demo import main
 
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/',methods=['POST'])
 def hello():
 
-    print request
-    
-	main('picture.jpg')
-	result = {
-            'status' : 200,
-            'message' : 'OK',
-            'url' : '/ai_resource/face/output/picture.jpg'
-        }
+    filename = request.form['filename'];
 
-	return json.dumps(result)
+    main(filename)
+
+    result = {
+        'status' : 200,
+        'message' : 'OK',
+        'url' : '/ai_resource/face/output/'+filename
+    }
+
+    return json.dumps(result)
 
 @app.route('/savePic/',methods=['POST'])
 def save():
@@ -33,8 +34,7 @@ def save():
     if file:
         filename = secure_filename(file.filename)
         urlPath = os.path.join(PROXY_DIC,filename)
-	    savePath = os.path.join(SAVE_DIC,filename)
-        print(urlPath)
+        savePath = os.path.join(SAVE_DIC,filename)
         file.save(savePath)
 
     _req = {
