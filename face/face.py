@@ -31,7 +31,7 @@ def save():
     if file:
         filename = secure_filename(file.filename)
         urlPath = os.path.join(PROXY_DIC,filename)
-	savePath = os.path.join(SAVE_DIC,filename)
+	    savePath = os.path.join(SAVE_DIC,filename)
         print(urlPath)
         file.save(savePath)
 

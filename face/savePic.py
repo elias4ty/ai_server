@@ -1,21 +1,25 @@
 from flask import Flask,request
 from werkzeug import secure_filename
 import os,json,sys
+from config import dic
 
 
 app = Flask(__name__)
 
 @app.route('/savePic/',methods=['POST'])
 def save():
-    DIC = '/Users/elias/Documents/python_exercise/flask_01'
+
+    SAVE_DIC = dic(sys.argv[1])
+    PROXY_DIC = '/ai_resource/face/input/'
 
     file = request.files['picture']
-    print(sys.path)
+
     if file:
         filename = secure_filename(file.filename)
-        urlPath = os.path.join(DIC,filename)
+        urlPath = os.path.join(PROXY_DIC,filename)
+        savePath = os.path.join(SAVE_DIC,filename)
         print(urlPath)
-        file.save(urlPath)
+        file.save(savePath)
 
     _req = {
         'status' : 200,
