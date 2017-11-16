@@ -11,6 +11,8 @@ app = Flask(__name__)
 @app.route('/')
 def hello():
 
+    print request
+    
 	main('picture.jpg')
 	result = {
             'status' : 200,
